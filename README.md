@@ -14,7 +14,7 @@ Two related classification tasks on **27×27 RGB H&E tiles of colon cells**, eva
 
 The project compares classical baselines with small CNNs, runs controlled experiments (learning rate, augmentation, transfer learning, class weighting, model capacity), and reports results honestly, **including where the targets were missed and why**.
 
-![Sample tiles per cell type](docs/figures/sample_tiles.png)
+![Sample tiles per cell type](https://github.com/Geortue/Histopathology-cell-classification/blob/main/histopathology-cell-classification/docs/figures/sample_tiles.png?raw=true)
 
 ## Highlights
 
