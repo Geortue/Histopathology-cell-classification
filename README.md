@@ -7,10 +7,10 @@
 
 Two related classification tasks on **27×27 RGB H&E tiles of colon cells**, evaluated on **patients the model has never seen**:
 
-| Task | Type | Data | Metric | Target |
-|---|---|---|---|---|
-| `isCancerous` | binary (cancerous vs non-cancerous) | 20,280 tiles · 98 patients | macro-F1 | ≥ 0.90 |
-| `cellType` | 4-class (fibroblast, inflammatory, epithelial, others) | 9,896 tiles · 60 patients | macro-F1 | ≥ 0.60 |
+| Task          | Type                                                   | Data                       | Metric   | Target |
+| ------------- | ------------------------------------------------------ | -------------------------- | -------- | ------ |
+| `isCancerous` | binary (cancerous vs non-cancerous)                    | 20,280 tiles · 98 patients | macro-F1 | ≥ 0.90 |
+| `cellType`    | 4-class (fibroblast, inflammatory, epithelial, others) | 9,896 tiles · 60 patients  | macro-F1 | ≥ 0.60 |
 
 The project compares classical baselines with small CNNs, runs controlled experiments (learning rate, augmentation, transfer learning, class weighting, model capacity), and reports results honestly, **including where the targets were missed and why**.
 
@@ -29,42 +29,42 @@ The project compares classical baselines with small CNNs, runs controlled experi
 
 ### Final models on held-out test patients
 
-| Task | Final model | Test macro-F1 | Target | Met? |
-|---|---|---|---|---|
-| `isCancerous` | WiderCNN + augmentation (15 epochs) | **0.854** | 0.90 | No |
-| `cellType` | SmallCNN transferred from isCancerous + augmentation (12 epochs) | **0.516** | 0.60 | No |
+| Task          | Final model                                                      | Test macro-F1 | Target | Met? |
+| ------------- | ---------------------------------------------------------------- | ------------- | ------ | ---- |
+| `isCancerous` | WiderCNN + augmentation (15 epochs)                              | **0.854**     | 0.90   | No   |
+| `cellType`    | SmallCNN transferred from isCancerous + augmentation (12 epochs) | **0.516**     | 0.60   | No   |
 
 **isCancerous (20 test patients, 3,956 tiles):** accuracy 0.878 · sensitivity 0.892 · specificity 0.874 · PPV 0.717 · NPV 0.957.
 
 **cellType (12 test patients, 1,839 tiles):**
 
-| Class | Precision | Recall | F1 |
-|---|---|---|---|
-| epithelial | 0.932 | 0.750 | 0.831 |
-| inflammatory | 0.478 | 0.741 | 0.581 |
-| fibroblast | 0.512 | 0.563 | 0.537 |
-| others | 0.153 | 0.095 | **0.117** |
+| Class        | Precision | Recall | F1        |
+| ------------ | --------- | ------ | --------- |
+| epithelial   | 0.932     | 0.750  | 0.831     |
+| inflammatory | 0.478     | 0.741  | 0.581     |
+| fibroblast   | 0.512     | 0.563  | 0.537     |
+| others       | 0.153     | 0.095  | **0.117** |
 
 <p align="center">
-  <img src="docs/figures/iscancerous_test_confusion.png" width="38%" alt="isCancerous test confusion matrix">
-  <img src="docs/figures/celltype_test_results.png" width="60%" alt="cellType test confusion matrix and per-class metrics">
+  <img src="https://raw.githubusercontent.com/Geortue/Histopathology-cell-classification/refs/heads/main/histopathology-cell-classification/docs/figures/iscancerous_test_confusion.png" width="38%" alt="isCancerous test confusion matrix">
+  <img src="https://raw.githubusercontent.com/Geortue/Histopathology-cell-classification/refs/heads/main/histopathology-cell-classification/docs/figures/celltype_test_results.png" width="60%" alt="cellType test confusion matrix and per-class metrics">
 </p>
 
 ### Validation comparison (macro-F1 of the weights at the end of training)
 
-| Model | isCancerous train | isCancerous val | cellType train | cellType val |
-|---|---|---|---|---|
-| Logistic regression + PCA(50) | 0.840 | 0.814 | n/a | n/a |
-| SVM-RBF + PCA(50) | n/a | n/a | 0.833 | 0.570 |
-| Random forest (150 trees, raw pixels) | 1.000 | 0.828 | 1.000 | 0.508 |
-| SmallCNN | 0.899 | 0.852 | 0.675 | 0.548 |
-| SmallCNN + augmentation (10 ep) | 0.888 | 0.862 | 0.635 | 0.552 |
-| SmallCNN + augmentation (15 ep) | 0.894 | 0.874 | n/a | n/a |
-| **WiderCNN + augmentation (15 ep)** | 0.897 | **0.876** | n/a | n/a |
-| Transfer, frozen trunk | n/a | n/a | 0.736 | 0.576 |
-| Transfer, fine-tune all | n/a | n/a | 0.792 | 0.624 |
-| **Transfer + augmentation** | n/a | n/a | 0.740 | 0.586 |
-| Transfer + augmentation + class-weighted loss | n/a | n/a | 0.734 | 0.578 |
+| Model                                         | isCancerous train | isCancerous val | cellType train | cellType val |
+| --------------------------------------------- | ----------------- | --------------- | -------------- | ------------ |
+| Logistic regression + PCA(50)                 | 0.840             | 0.814           | n/a            | n/a          |
+| SVM-RBF + PCA(50)                             | n/a               | n/a             | 0.833          | 0.570        |
+| Random forest (150 trees, raw pixels)         | 1.000             | 0.828           | 1.000          | 0.508        |
+| SmallCNN                                      | 0.899             | 0.852           | 0.675          | 0.548        |
+| SmallCNN + augmentation (10 ep)               | 0.888             | 0.862           | 0.635          | 0.552        |
+| SmallCNN + augmentation (15 ep)               | 0.894             | 0.874           | n/a            | n/a          |
+| **WiderCNN + augmentation (15 ep)**           | 0.897             | **0.876**       | n/a            | n/a          |
+| Transfer, frozen trunk                        | n/a               | n/a             | 0.736          | 0.576        |
+| Transfer, fine-tune all                       | n/a               | n/a             | 0.792          | 0.624        |
+| **Transfer + augmentation**                   | n/a               | n/a             | 0.740          | 0.586        |
+| Transfer + augmentation + class-weighted loss | n/a               | n/a             | 0.734          | 0.578        |
 
 ### Key findings
 
@@ -77,12 +77,12 @@ The project compares classical baselines with small CNNs, runs controlled experi
 7. **`cellType` is limited by the `others` class** (test F1 0.12), a heterogeneous catch-all. Class-weighted loss raised its recall but lowered its precision and did not improve macro-F1, so the problem is visual signal rather than imbalance.
 
 <p align="center">
-  <img src="docs/figures/learning_rate_sweep.png" width="49%" alt="Learning rate sweep">
-  <img src="docs/figures/iscancerous_cnn_regimes.png" width="49%" alt="isCancerous CNN regimes">
+  <img src="https://raw.githubusercontent.com/Geortue/Histopathology-cell-classification/refs/heads/main/histopathology-cell-classification/docs/figures/learning_rate_sweep.png" width="49%" alt="Learning rate sweep">
+  <img src="https://raw.githubusercontent.com/Geortue/Histopathology-cell-classification/refs/heads/main/histopathology-cell-classification/docs/figures/iscancerous_cnn_regimes.png" width="49%" alt="isCancerous CNN regimes">
 </p>
 <p align="center">
-  <img src="docs/figures/celltype_transfer_variants.png" width="49%" alt="cellType transfer learning variants">
-  <img src="docs/figures/celltype_class_weighting.png" width="49%" alt="cellType class-weighted loss comparison">
+  <img src="https://raw.githubusercontent.com/Geortue/Histopathology-cell-classification/refs/heads/main/histopathology-cell-classification/docs/figures/celltype_transfer_variants.png" width="49%" alt="cellType transfer learning variants">
+  <img src="https://raw.githubusercontent.com/Geortue/Histopathology-cell-classification/refs/heads/main/histopathology-cell-classification/docs/figures/celltype_class_weighting.png" width="49%" alt="cellType class-weighted loss comparison">
 </p>
 
 ## Notes on the results (read before citing the numbers)
@@ -90,8 +90,8 @@ The project compares classical baselines with small CNNs, runs controlled experi
 These are limitations of the original experiment that this repository documents rather than hides:
 
 - **Both accuracy targets were missed** (0.854 vs 0.90; 0.516 vs 0.60).
-- **Selection vs. evaluation mismatch (cellType).** The final model was *selected* by best-epoch validation F1 (0.694 at epoch 10), but the weights *evaluated* on test are the last-epoch weights (validation F1 0.586). Against 0.586, the val-to-test drop is about 0.07, not 0.18. Validation F1 on this task also swings by 0.05–0.15 between epochs (12 validation patients), so single "best epoch" numbers are optimistic. `scripts/run_pipeline.py --restore-best` makes selection and evaluation consistent.
-- **Possible transfer-source leakage.** The two tasks are split independently, so patients in the `isCancerous` *training* set can also be `cellType` *validation/test* patients. Since cancer status equals "epithelial" in the main data, the transferred trunk may have seen labels of held-out patients. The pipeline reports this overlap and `--leakage-safe` removes those patients from the source model's training data. The headline numbers above were produced **without** that flag; a leakage-safe re-run is on the roadmap.
+- **Selection vs. evaluation mismatch (cellType).** The final model was _selected_ by best-epoch validation F1 (0.694 at epoch 10), but the weights _evaluated_ on test are the last-epoch weights (validation F1 0.586). Against 0.586, the val-to-test drop is about 0.07, not 0.18. Validation F1 on this task also swings by 0.05–0.15 between epochs (12 validation patients), so single "best epoch" numbers are optimistic. `scripts/run_pipeline.py --restore-best` makes selection and evaluation consistent.
+- **Possible transfer-source leakage.** The two tasks are split independently, so patients in the `isCancerous` _training_ set can also be `cellType` _validation/test_ patients. Since cancer status equals "epithelial" in the main data, the transferred trunk may have seen labels of held-out patients. The pipeline reports this overlap and `--leakage-safe` removes those patients from the source model's training data. The headline numbers above were produced **without** that flag; a leakage-safe re-run is on the roadmap.
 - **Single split, single seed, no confidence intervals.** With 12 test patients for `cellType`, one or two atypical patients move the metric noticeably.
 - **Single-institution data, no external validation.** This is a research exercise, not a diagnostic tool. In screening, a missed cancer costs far more than a false alarm, so a deployed operating point should favour sensitivity.
 
@@ -161,17 +161,17 @@ Outputs: `outputs/metrics.json`, `outputs/test_predictions_*.csv`, `splits/*.csv
 
 ## Method summary
 
-| Component | Details |
-|---|---|
-| Splits | Nested `GroupShuffleSplit` on `patientID`; 60/20/20 by patient, per task; `SEED = 42` |
-| Input | 3×27×27 tensors scaled to [0, 1] |
-| Baselines | StandardScaler → PCA(50) → logistic regression / SVM-RBF; random forest on raw pixels |
-| CNN | 2 double-conv blocks (3→32→64), 3×3 kernels, max-pool, 128-unit head, dropout 0.3 (361k params). `WiderCNN`: 3→64→128, 256-unit head (1.44M) |
-| Optimiser | Adam, lr 1e-3 (chosen by sweep), weight decay 1e-4, batch 128 |
-| Augmentation | Horizontal + vertical flip, rotation ±15°, training set only |
-| Transfer | Conv trunk of the isCancerous CNN copied into the cellType CNN; head re-initialised; frozen vs fine-tuned compared |
-| Class weights | `w_c = N / (K · n_c)` in `CrossEntropyLoss` |
-| Metric | Macro-F1 (primary), accuracy, per-class P/R/F1, sensitivity/specificity for isCancerous |
+| Component     | Details                                                                                                                                      |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Splits        | Nested `GroupShuffleSplit` on `patientID`; 60/20/20 by patient, per task; `SEED = 42`                                                        |
+| Input         | 3×27×27 tensors scaled to [0, 1]                                                                                                             |
+| Baselines     | StandardScaler → PCA(50) → logistic regression / SVM-RBF; random forest on raw pixels                                                        |
+| CNN           | 2 double-conv blocks (3→32→64), 3×3 kernels, max-pool, 128-unit head, dropout 0.3 (361k params). `WiderCNN`: 3→64→128, 256-unit head (1.44M) |
+| Optimiser     | Adam, lr 1e-3 (chosen by sweep), weight decay 1e-4, batch 128                                                                                |
+| Augmentation  | Horizontal + vertical flip, rotation ±15°, training set only                                                                                 |
+| Transfer      | Conv trunk of the isCancerous CNN copied into the cellType CNN; head re-initialised; frozen vs fine-tuned compared                           |
+| Class weights | `w_c = N / (K · n_c)` in `CrossEntropyLoss`                                                                                                  |
+| Metric        | Macro-F1 (primary), accuracy, per-class P/R/F1, sensitivity/specificity for isCancerous                                                      |
 
 ## Roadmap
 
