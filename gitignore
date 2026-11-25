@@ -1,0 +1,91 @@
+# ============================================================
+# Datasets (never commit the raw data: size and licensing)
+# ============================================================
+data/*
+!data/.gitkeep
+!data/README.md
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# ============================================================
+# Model weights and checkpoints
+# ============================================================
+models/*
+!models/.gitkeep
+checkpoints/
+checkpoint/
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+*.onnx
+*.h5
+*.hdf5
+*.keras
+*.pb
+*.pkl
+*.pickle
+*.joblib
+*.npy
+*.npz
+
+# ============================================================
+# Output artifacts (predictions, metrics, logs, derived splits)
+# ============================================================
+outputs/*
+!outputs/.gitkeep
+splits/*
+!splits/.gitkeep
+runs/
+lightning_logs/
+mlruns/
+wandb/
+tensorboard/
+logs/
+*.log
+
+# ============================================================
+# Virtual environments
+# ============================================================
+.venv/
+venv/
+env/
+ENV/
+.conda/
+.env
+.env.*
+!.env.example
+
+# ============================================================
+# Python build / cache
+# ============================================================
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ============================================================
+# Jupyter
+# ============================================================
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# ============================================================
+# OS / editor
+# ============================================================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
